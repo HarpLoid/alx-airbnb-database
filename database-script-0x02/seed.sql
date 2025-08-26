@@ -152,4 +152,3 @@ INSERT INTO Message (message_id, sender_id, recipient_id, message_body) VALUES
 ('m23', 'u17', 'u3', 'Clara, is the Abuja villa near the airport?'),
 ('m24', 'u3', 'u17', 'Yes, 20 mins drive.'),
 ('m25', 'u18', 'u16', 'Paul, do you provide airport pickup for the cabin?');
-
