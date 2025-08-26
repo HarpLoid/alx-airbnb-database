@@ -1,3 +1,3 @@
 # Entity Relationship Diagram (ERD)
 
-![alt text](ERD.jpg)
+![Database ER Diagram](./ER_Diagram.png)
