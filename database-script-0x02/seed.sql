@@ -1,5 +1,5 @@
 -- User data
-INSERT INTO User (user_id, first_name, last_name, email, password_hash, phone_number, role, created_at) VALUES
+INSERT INTO Users (user_id, first_name, last_name, email, password_hash, phone_number, role, created_at) VALUES
 ('u1', 'Alice', 'Johnson', 'alice@example.com', 'pw1', '+2348011111111', 'guest', NOW()),
 ('u2', 'Bob', 'Smith', 'bob@example.com', 'pw2', '+2348022222222', 'host', NOW()),
 ('u3', 'Clara', 'Williams', 'clara@example.com', 'pw3', '+2348033333333', 'host', NOW()),
@@ -22,7 +22,7 @@ INSERT INTO User (user_id, first_name, last_name, email, password_hash, phone_nu
 ('u20', 'Tina', 'Lopez', 'tina@example.com', 'pw20', '+2347112345678', 'host', NOW());
 
 -- Property data
-INSERT INTO Property (property_id, host_id, name, description, location, pricepernight, created_at, updated_at) VALUES
+INSERT INTO Properties (property_id, host_id, name, description, location, pricepernight, created_at, updated_at) VALUES
 ('p1', 'u2', 'Cozy Apartment Lagos', '2-bedroom in Victoria Island.', 'Lagos, Nigeria', 150.00, NOW(), NOW()),
 ('p2', 'u2', 'Luxury Condo Ikeja', 'Modern condo with power & WiFi.', 'Ikeja, Lagos', 200.00, NOW(), NOW()),
 ('p3', 'u3', 'Beach House Lekki', 'Spacious with private pool.', 'Lekki, Lagos', 350.00, NOW(), NOW()),
@@ -40,7 +40,7 @@ INSERT INTO Property (property_id, host_id, name, description, location, pricepe
 ('p15', 'u12', 'Business Flat PH', 'Close to city center.', 'Port Harcourt, Nigeria', 150.00, NOW(), NOW());
 
 -- Booking data
-INSERT INTO Booking (booking_id, property_id, user_id, start_date, end_date, total_price, status, created_at) VALUES
+INSERT INTO Bookings (booking_id, property_id, user_id, start_date, end_date, total_price, status, created_at) VALUES
 ('b1', 'p1', 'u1', '2025-09-01', '2025-09-05', 600.00, 'confirmed', NOW()),
 ('b2', 'p3', 'u4', '2025-09-10', '2025-09-12', 700.00, 'confirmed', NOW()),
 ('b3', 'p2', 'u5', '2025-09-15', '2025-09-20', 1000.00, 'pending', NOW()),
@@ -93,7 +93,7 @@ INSERT INTO Booking (booking_id, property_id, user_id, start_date, end_date, tot
 ('b50', 'p5', 'u2', '2025-09-01', '2025-09-03', 160.00, 'confirmed', NOW());
 
 -- Payment data
-INSERT INTO Payment (payment_id, booking_id, amount, payment_date, payment_method) VALUES
+INSERT INTO Payments (payment_id, booking_id, amount, payment_date, payment_method) VALUES
 ('pay1', 'b1', 600.00, '2025-08-20', 'credit card'),
 ('pay2', 'b2', 700.00, '2025-08-25', 'paypal'),
 ('pay3', 'b5', 400.00, '2025-09-01', 'stripe'),
@@ -126,7 +126,7 @@ INSERT INTO Payment (payment_id, booking_id, amount, payment_date, payment_metho
 ('pay30', 'b46', 600.00, '2025-10-25', 'stripe');
 
 -- Message data
-INSERT INTO Message (message_id, sender_id, recipient_id, message_body) VALUES
+INSERT INTO Messages (message_id, sender_id, recipient_id, message_body) VALUES
 ('m1', 'u1', 'u2', 'Hi Bob, can I check in early for Lagos apartment?'),
 ('m2', 'u2', 'u1', 'Sure Alice, 12 PM is fine.'),
 ('m3', 'u4', 'u3', 'Clara, does the beach house allow pets?'),

@@ -1,5 +1,5 @@
 -- User Table
-CREATE TABLE User (
+CREATE TABLE Users (
     user_id Primary Key UUID,
     first_name VARCHAR(128) NOT NULL,
     last_name VARCHAR(128) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE User (
 )
 
 -- Property Table
-CREATE TABLE Property (
+CREATE TABLE Properties (
     property_id Primary Key UUID,
     host_id UUID NOT NULL,
     name VARCHAR(128) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE Property (
 )
 
 -- Booking Table
-CREATE TABLE Booking (
+CREATE TABLE Bookings (
     booking_id Primary Key UUID,
     property_id UUID UNIQUE NOT NULL,
     user_id UUID NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE Booking (
 )
 
 -- Payment Table
-CREATE TABLE Payment(
+CREATE TABLE Payments (
     payment_id Primary Key UUID,
     booking_id UUID UNIQUE NOT NULL,
     amount DECIMAL NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE Payment(
 )
 
 -- Review Table
-CREATE TABLE Review (
+CREATE TABLE Reviews (
     review_id Primary Key UUID,
     property_id UUID NOT NULL,
     user_id UUID NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE Review (
 )
 
 -- Message Table
-CREATE TABLE Message(
+CREATE TABLE Messages (
     message_id Primary Key UUID,
     sender_id UUID NOT NULL,
     recipient_id UUID NOT NULL,
