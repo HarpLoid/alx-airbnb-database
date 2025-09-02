@@ -8,7 +8,8 @@ INNER JOIN Bookings as b
 SELECT *
 FROM Properties as p
 LEFT JOIN Reviews as r
-    ON p.property_id = r.property_id;
+    ON p.property_id = r.property_id
+ORDER BY p.property_id DESC;
 
 -- FULL OUTER JOIN QUERY
 SELECT * FROM Users as u
