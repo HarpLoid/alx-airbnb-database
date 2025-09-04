@@ -1,69 +1,78 @@
--- User Table
+-- Users Table
 CREATE TABLE Users (
-    user_id Primary Key UUID,
+    user_id UUID PRIMARY KEY,
     first_name VARCHAR(128) NOT NULL,
     last_name VARCHAR(128) NOT NULL,
-    email VARCHAR(128) UNIQUE NOT NULL,
-    password_hash VARCHAR(128) NOT NULL,
-    phone_number VARCHAR(128) NULL,
-    role ENUM ("guest", "host", "admin") NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(20),
+    role VARCHAR(20) NOT NULL CHECK (role IN ('guest', 'host', 'admin')),
+    created_at TIMESTAMP DEFAULT now()
+);
 
--- Property Table
+-- Properties Table
 CREATE TABLE Properties (
-    property_id Primary Key UUID,
+    property_id UUID PRIMARY KEY,
     host_id UUID NOT NULL,
     name VARCHAR(128) NOT NULL,
     description TEXT NOT NULL,
-    location VARCHAR(128) NOT NULL,
-    pricepernight DECIMAL NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    FOREIGN KEY (host_id) REFERENCES User(user_id),
-)
+    location VARCHAR(255) NOT NULL,
+    price_per_night DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT now(),
+    updated_at TIMESTAMP DEFAULT now(),
+    FOREIGN KEY (host_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
 
--- Booking Table
+-- Bookings Table
 CREATE TABLE Bookings (
-    booking_id Primary Key UUID,
-    property_id UUID UNIQUE NOT NULL,
+    booking_id UUID PRIMARY KEY,
+    property_id UUID NOT NULL,
     user_id UUID NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    total_price DECIMAL NOT NULL,
-    status ENUM ("pending", "confirmed", "canceled") NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (property_id) REFERENCES Property(property_id),
-    FOREIGN KEY (user_id) REFERENCES User(user_id)
-)
+    total_price DECIMAL(10,2) NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending' 
+        CHECK (status IN ('pending', 'confirmed', 'canceled')),
+    created_at TIMESTAMP DEFAULT now(),
+    FOREIGN KEY (property_id) REFERENCES Properties(property_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
 
--- Payment Table
+-- Payments Table
 CREATE TABLE Payments (
-    payment_id Primary Key UUID,
-    booking_id UUID UNIQUE NOT NULL,
-    amount DECIMAL NOT NULL,
-    payment_date DATE NOT NULL,
-    payment_method ENUM ("credit card", "paypal", "stripe") NOT NULL,
-    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id)
-)
+    payment_id UUID PRIMARY KEY,
+    booking_id UUID NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    payment_date TIMESTAMP NOT NULL DEFAULT now(),
+    payment_method VARCHAR(20) NOT NULL 
+        CHECK (payment_method IN ('credit_card', 'paypal', 'stripe')),
+    FOREIGN KEY (booking_id) REFERENCES Bookings(booking_id) ON DELETE CASCADE
+);
 
--- Review Table
+-- Reviews Table
 CREATE TABLE Reviews (
-    review_id Primary Key UUID,
+    review_id UUID PRIMARY KEY,
     property_id UUID NOT NULL,
     user_id UUID NOT NULL,
-    rating INTEGER CHECK (rating >= 1 AND rating <= 5) NOT NULL,
-    comment TEXT NOT NULL,
-    FOREIGN KEY (property_id) REFERENCES Property(property_id),
-    FOREIGN KEY (user_id) REFERENCES User(user_id)
-)
+    rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT now(),
+    FOREIGN KEY (property_id) REFERENCES Properties(property_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
 
--- Message Table
+-- Messages Table
 CREATE TABLE Messages (
-    message_id Primary Key UUID,
+    message_id UUID PRIMARY KEY,
     sender_id UUID NOT NULL,
     recipient_id UUID NOT NULL,
     message_body TEXT NOT NULL,
-    FOREIGN KEY (sender_id) REFERENCES User(user_id),
-    FOREIGN KEY (recipient_id) REFERENCES User(user_id)
-)
+    created_at TIMESTAMP DEFAULT now(),
+    FOREIGN KEY (sender_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (recipient_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+-- Indexes
+-- CREATE INDEX idx_users_email ON Users(email);
+-- CREATE INDEX idx_bookings_property_id ON Bookings(property_id);
+-- CREATE INDEX idx_payments_booking_id ON Payments(booking_id);
